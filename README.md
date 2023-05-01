@@ -17,7 +17,7 @@ Bem vindo ao Food Explorer! Essa aplicação é o desafio final do curso Explore
 
 ## Demonstração
 
-:construction: em construção :construction:
+![image](https://user-images.githubusercontent.com/103855358/235539482-94bb3499-1a50-4956-82e1-8593f0ce6b3a.png)
 
 ## Stack utilizada
 
