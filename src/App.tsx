@@ -6,8 +6,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { SignUp } from "./pages/SignUp";
 import { Home } from "./pages/Home";
 import { FoodDetails } from "./pages/FoodDetails";
-import { NewPlate } from "./pages/NewPlate";
+import { CreatePlate } from "./pages/CreatePlate";
 import { EditPlate } from "./pages/EditPlate";
+import { Menu } from "./pages/Menu";
 
 const authRoutes = createBrowserRouter([
   {
@@ -26,15 +27,19 @@ const appRoutes = createBrowserRouter([
     element: <Home />
   },
   {
+    path: "/menu",
+    element: <Menu />
+  },
+  {
     path: '/foodDetails',
     element: <FoodDetails />
   },
   {
-    path: '/novoPrato',
-    element: <NewPlate />
+    path: '/createPlate',
+    element: <CreatePlate />
   },
   {
-    path: '/editarPrato',
+    path: '/editPlate',
     element: <EditPlate />
   },
 ])

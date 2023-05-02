@@ -42,5 +42,7 @@ export const MarkersContainer = styled.div<MarkersContainerProps>`
     border: 0;
     background: transparent;
     line-height: 0;
+
+    cursor: pointer;
   }
 `

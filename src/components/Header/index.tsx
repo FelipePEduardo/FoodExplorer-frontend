@@ -1,12 +1,19 @@
 import { List, Receipt, MagnifyingGlass, SignOut } from "@phosphor-icons/react";
 import { Logo } from "../Logo";
 import { HeaderContainer, HeaderContent, InputContainer, LogoContainer, MenuButton, RequestsButton, SignOutContainer } from "./styles";
+import { useNavigate } from "react-router-dom";
 
 export function Header() {
+  const navigate = useNavigate()
+
+  function handleNavigate() {
+    navigate('/menu')
+  }
+
   return (
     <HeaderContainer>
       <HeaderContent>
-        <MenuButton>
+        <MenuButton onClick={handleNavigate}>
           <List size={24}/>
         </MenuButton>
 

@@ -15,7 +15,7 @@ export function Markers({ isNew }: MarkersProps) {
       />
     
       <button type="button">
-      { isNew ? <Plus size={16} /> : <X size={16} /> }
+        { isNew ? <Plus size={16} /> : <X size={16} /> }
       </button>
     </MarkersContainer>
   )

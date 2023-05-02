@@ -93,22 +93,6 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 1.6rem;
 
-  &.plateImg {
-    max-width: 24rem;
-  }
-
-  &.plateName {
-    width: 100%;
-  }
-
-  &.plateCategory {
-    max-width: 36.4rem;
-  }
-
-  &.platePrice {
-    max-width: 25.1rem;
-  }
-
   > label {
     color: ${({ theme }) => theme.colors["light-400"]};
   }
@@ -139,6 +123,24 @@ export const Container = styled.div`
 
     ::placeholder {
       color: ${({ theme }) => theme.colors["light-500"]};
+    }
+  }
+
+  @media(min-width: 1160px) {
+    &.plateImg {
+      max-width: 24rem;
+    }
+
+    &.plateName {
+      width: 100%;
+    }
+
+    &.plateCategory {
+      max-width: 36.4rem;
+    }
+
+    &.platePrice {
+      max-width: 25.1rem;
     }
   }
 `

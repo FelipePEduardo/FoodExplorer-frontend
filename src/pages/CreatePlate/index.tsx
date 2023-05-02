@@ -7,7 +7,7 @@ import { Footer } from "../../components/Footer"
 import { Markers } from "../../components/Marker"
 import { useNavigate } from "react-router-dom"
 
-export function NewPlate() {
+export function CreatePlate() {
   const navigate = useNavigate()
 
   function handleNavigate() {
@@ -60,7 +60,6 @@ export function NewPlate() {
               <label htmlFor="">Ingredientes</label>
               <MarkersContainer>
                 <Markers/> 
-                <Markers />
                 <Markers isNew/>
               </MarkersContainer>
             </Container>

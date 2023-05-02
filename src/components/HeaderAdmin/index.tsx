@@ -1,8 +1,15 @@
 import { List, MagnifyingGlass, SignOut } from "@phosphor-icons/react";
 import { HeaderAdminContainer, HeaderAdminContent, InputContainer, LogoContainer, MenuButton, RequestsButton, SignOutContainer } from "./styles";
 import { Logo } from "../Logo";
+import { useNavigate } from "react-router-dom";
 
 export function HeaderAdmin() {
+  const navigate = useNavigate()
+
+  function handleNavigate() {
+    navigate('/createPlate')
+  }
+
   return (
     <HeaderAdminContainer>
       <HeaderAdminContent>
@@ -20,7 +27,7 @@ export function HeaderAdmin() {
           <input type="text" placeholder="Busque por pratos ou ingredientes"/>
         </InputContainer>
 
-        <RequestsButton>
+        <RequestsButton onClick={handleNavigate}>
           <span>Novo prato</span>
         </RequestsButton>
 
