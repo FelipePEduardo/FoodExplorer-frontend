@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const CardContainer = styled.div`
   min-width: 21rem;
   max-width: 21rem;
+  height: 30rem;
 
   background: ${({ theme }) => theme.colors["dark-200"]};
   border: 1px solid ${({ theme }) => theme.colors["dark-200"]};
@@ -12,6 +13,7 @@ export const CardContainer = styled.div`
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 1.2rem;
 
@@ -67,6 +69,7 @@ export const CardContainer = styled.div`
 
   @media(min-width: 1160px) {
     width: 30rem;
+    height: 46.2rem;
 
     gap: 1.5rem;
 

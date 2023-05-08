@@ -152,3 +152,11 @@ export const ButtonsContainer = styled.div`
     }
   }
 `
+
+export const ButtonContainerAdmin = styled.div`
+  width: 100%;
+
+  @media(min-width: 1160px) {
+    width: 13rem;
+  }
+`

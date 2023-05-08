@@ -6,14 +6,18 @@ import { useNavigate } from "react-router-dom";
 export function HeaderAdmin() {
   const navigate = useNavigate()
 
-  function handleNavigate() {
+  function handleNavigateToCreatePlate() {
     navigate('/createPlate')
+  }
+
+  function handleNavigateToMenu() {
+    navigate('/menu')
   }
 
   return (
     <HeaderAdminContainer>
       <HeaderAdminContent>
-        <MenuButton>
+        <MenuButton onClick={handleNavigateToMenu}>
           <List size={24}/>
         </MenuButton>
 
@@ -27,7 +31,7 @@ export function HeaderAdmin() {
           <input type="text" placeholder="Busque por pratos ou ingredientes"/>
         </InputContainer>
 
-        <RequestsButton onClick={handleNavigate}>
+        <RequestsButton onClick={handleNavigateToCreatePlate}>
           <span>Novo prato</span>
         </RequestsButton>
 

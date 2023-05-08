@@ -9,6 +9,7 @@ import { FoodDetails } from "./pages/FoodDetails";
 import { CreatePlate } from "./pages/CreatePlate";
 import { EditPlate } from "./pages/EditPlate";
 import { Menu } from "./pages/Menu";
+import { useAuth } from "./hooks/auth";
 
 const authRoutes = createBrowserRouter([
   {
@@ -45,11 +46,13 @@ const appRoutes = createBrowserRouter([
 ])
 
 export function App() {
+  const { user } = useAuth()
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
 
-      <RouterProvider router={appRoutes} />
+      <RouterProvider router={user ? appRoutes : authRoutes} />
     </ThemeProvider>
   )
 }

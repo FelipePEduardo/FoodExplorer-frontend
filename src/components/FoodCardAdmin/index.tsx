@@ -1,12 +1,18 @@
 import { CardContainer } from "./styles";
 import { PencilSimple, CaretRight } from "@phosphor-icons/react"
 import parmaImg from '../../assets/foods/parma.png'
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export function FoodCardAdmin() {
+  const navigate = useNavigate()
+
+  function handleNavigate() {
+    navigate("/editPlate")
+  }
+
   return (
     <CardContainer className="keen-slider__slide">
-      <button>
+      <button onClick={handleNavigate}>
         <PencilSimple size={24}/>
       </button>
 

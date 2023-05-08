@@ -1,18 +1,11 @@
 import { ButtonContainer } from "./styles";
 import { ButtonHTMLAttributes } from "react";
 
-
-/* interface ButtonProps {
-  title: string
-  type?: 'submit' | 'reset' | 'button'
-  children?: ReactNode
-} */
-
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
 
-export function Button({ title, type, children, disabled }:ButtonProps) {
+export function Button({ title, type, children, disabled, onClick }:ButtonProps) {
   return (
-    <ButtonContainer type={type} disabled={disabled}>
+    <ButtonContainer type={type} disabled={disabled} onClick={onClick}>
       {children}
       {title}
     </ButtonContainer>
