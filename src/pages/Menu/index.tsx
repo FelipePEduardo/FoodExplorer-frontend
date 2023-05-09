@@ -6,7 +6,7 @@ import { useAuth } from "../../hooks/auth";
 
 export function Menu() {
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
 
   function handleNavigateBack() {
     navigate(-1)
@@ -14,6 +14,11 @@ export function Menu() {
 
   function handleNavigate() {
     navigate('/createPlate')
+  }
+
+  function handleSignOut() {
+    navigate('/')
+    signOut()
   }
 
   return (
@@ -39,7 +44,7 @@ export function Menu() {
             Novo prato
           </button>
   
-          <button>
+          <button onClick={handleSignOut}>
             Sair
           </button>
         </MenuContent>
@@ -63,7 +68,7 @@ export function Menu() {
             </InputContainer>
           </form>
 
-          <button>
+          <button onClick={handleSignOut}>
             Sair
           </button>
         </MenuContent>

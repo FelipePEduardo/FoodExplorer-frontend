@@ -29,11 +29,12 @@ interface UserProps {
 
 interface DataProps {
   user: UserProps
-  token: string
+  token: string 
 }
 
 interface AuthContextType {
   signIn: ({ email, password }: SignInProps) => void
+  signOut: () => void
   user: UserProps
 }
 
@@ -63,6 +64,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
+  function signOut() {
+    localStorage.removeItem('@foodexplorer:token')
+    localStorage.removeItem('@foodexplorer:user')
+
+    setData({} as DataProps)
+  }
+
   useEffect(() => {
     const token = localStorage.getItem('@foodexplorer:token')
     const user = localStorage.getItem('@foodexplorer:user')
@@ -78,7 +86,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ signIn, user: data.user }}>
+    <AuthContext.Provider value={{ signIn, signOut,user: data.user }}>
       { children }
     </AuthContext.Provider>
   )
