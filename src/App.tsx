@@ -10,14 +10,16 @@ import { CreatePlate } from "./pages/CreatePlate";
 import { EditPlate } from "./pages/EditPlate";
 import { Menu } from "./pages/Menu";
 import { useAuth } from "./hooks/auth";
+import { Error } from "./pages/Error";
 
 const authRoutes = createBrowserRouter([
   {
     path: "/",
-    element: <SignIn />
+    element: <SignIn />,
+    errorElement: <Error />
   },
   {
-    path: "/register",
+    path: "register",
     element: <SignUp />
   },
 ])
@@ -25,22 +27,23 @@ const authRoutes = createBrowserRouter([
 const appRoutes = createBrowserRouter([
   {
     path: "/",
-    element: <Home />
+    element: <Home />,
+    errorElement: <Error />
   },
   {
-    path: "/menu",
+    path: "menu",
     element: <Menu />
   },
   {
-    path: '/foodDetails',
+    path: 'foodDetails',
     element: <FoodDetails />
   },
   {
-    path: '/createPlate',
+    path: 'createPlate',
     element: <CreatePlate />
   },
   {
-    path: '/editPlate',
+    path: 'editPlate',
     element: <EditPlate />
   },
 ])

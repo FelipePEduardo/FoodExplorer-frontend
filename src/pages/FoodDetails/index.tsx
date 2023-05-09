@@ -64,7 +64,7 @@ export function FoodDetails() {
         <Header />
 
         <FoodDetailsContent>
-          <button onClick={handleNavigate}>
+          <button onClick={handleNavigateBack}>
             <CaretLeft />  voltar
           </button>
 

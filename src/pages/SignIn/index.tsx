@@ -46,7 +46,7 @@ export function SignIn() {
 
           <Button type="submit" title="Entrar"/>
 
-          <NavLink to="/register">Criar uma conta</NavLink>
+          <NavLink to="register">Criar uma conta</NavLink>
         </Form>
       </SignInContent>
     </SignInContainer>
