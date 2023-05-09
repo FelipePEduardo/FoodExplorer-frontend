@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { api } from "../services/api";
 
 interface AuthContextProviderProps {
@@ -47,6 +47,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       const response = await api.post('/sessions', { email, password })
       const { user, token }: DataProps = response.data
 
+      localStorage.setItem('@foodexplorer:user', JSON.stringify(user))
+      localStorage.setItem('@foodexplorer:token', token)
+
       api.defaults.headers.authorization = `Bearer ${token}`
       setData({ user, token })
 
@@ -59,6 +62,20 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       }
     }
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem('@foodexplorer:token')
+    const user = localStorage.getItem('@foodexplorer:user')
+
+    if(token && user) {
+      api.defaults.headers.authorization = `Bearer ${token}`
+
+      setData({
+        token, 
+        user: JSON.parse(user)
+      })
+    }
+  }, [])
 
   return (
     <AuthContext.Provider value={{ signIn, user: data.user }}>
