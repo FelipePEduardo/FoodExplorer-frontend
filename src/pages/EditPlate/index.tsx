@@ -8,8 +8,14 @@ import { Button } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import { Error } from "../Error";
+import { useState } from "react";
 
 export function EditPlate() {
+  /* const [name, setName] = useState<string>('')
+  const [description, setDescription] = useState<string>('')
+  const [category, setCategory] = useState<string>('')
+  const [price, setPrice] = useState<string>('') */
+
   const navigate = useNavigate()
   const { user } = useAuth()
 
@@ -64,9 +70,9 @@ export function EditPlate() {
                 <Container className="plateIngredients">
                   <label htmlFor="">Ingredientes</label>
                   <MarkersContainer>
-                    <Markers/> 
+                    {/* <Markers/> 
                     <Markers />
-                    <Markers isNew/>
+                    <Markers isNew/> */}
                   </MarkersContainer>
                 </Container>
               

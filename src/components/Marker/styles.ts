@@ -32,7 +32,7 @@ export const MarkersContainer = styled.div<MarkersContainerProps>`
     color: ${({theme}) => theme.colors["light-100"]};
 
     &::placeholder {
-      color: ${({theme}) => theme.colors["light-100"]};
+      color: ${({theme}) => theme.colors["light-500"]};
     }
 
     box-shadow: none;

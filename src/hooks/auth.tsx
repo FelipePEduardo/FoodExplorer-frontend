@@ -27,6 +27,7 @@ interface UserProps {
   created_at: string
 }
 
+
 interface DataProps {
   user: UserProps
   token: string 
@@ -47,11 +48,11 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     try {
       const response = await api.post('/sessions', { email, password })
       const { user, token }: DataProps = response.data
-
+      
       localStorage.setItem('@foodexplorer:user', JSON.stringify(user))
       localStorage.setItem('@foodexplorer:token', token)
 
-      api.defaults.headers.authorization = `Bearer ${token}`
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
       setData({ user, token })
 
     }catch(err) {
@@ -76,7 +77,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     const user = localStorage.getItem('@foodexplorer:user')
 
     if(token && user) {
-      api.defaults.headers.authorization = `Bearer ${token}`
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
       setData({
         token, 
@@ -86,7 +87,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut,user: data.user }}>
+    <AuthContext.Provider value={{ signIn, signOut, user: data.user }}>
       { children }
     </AuthContext.Provider>
   )
