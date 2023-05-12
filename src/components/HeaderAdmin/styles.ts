@@ -82,7 +82,7 @@ export const InputContainer = styled.div`
   }
 
   svg {
-    margin-left: 15rem;
+    margin-left: 10rem;
   }
 
   input {

@@ -2,9 +2,15 @@ import { List, MagnifyingGlass, SignOut } from "@phosphor-icons/react";
 import { HeaderAdminContainer, HeaderAdminContent, InputContainer, LogoContainer, MenuButton, RequestsButton, SignOutContainer } from "./styles";
 import { Logo } from "../Logo";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/auth";
 
-export function HeaderAdmin() {
+interface HeaderAdminProps {
+  setSearch?: (value: string) => void
+}
+
+export function HeaderAdmin({ setSearch }: HeaderAdminProps) {
   const navigate = useNavigate()
+  const { signOut } = useAuth()
 
   function handleNavigateToCreatePlate() {
     navigate('/createPlate')
@@ -12,6 +18,11 @@ export function HeaderAdmin() {
 
   function handleNavigateToMenu() {
     navigate('/menu')
+  }
+
+  function handleSignOut() {
+    signOut()
+    navigate('/')
   }
 
   return (
@@ -28,14 +39,18 @@ export function HeaderAdmin() {
 
         <InputContainer>
           <MagnifyingGlass size={24}/>
-          <input type="text" placeholder="Busque por pratos ou ingredientes"/>
+          <input 
+            type="text" 
+            placeholder="Busque por pratos ou ingredientes"
+            onChange={(e) => setSearch!(e.target.value)}  
+          />
         </InputContainer>
 
         <RequestsButton onClick={handleNavigateToCreatePlate}>
           <span>Novo prato</span>
         </RequestsButton>
 
-        <SignOutContainer>
+        <SignOutContainer onClick={handleSignOut}>
           <SignOut size={24}/>
         </SignOutContainer>
       </HeaderAdminContent>

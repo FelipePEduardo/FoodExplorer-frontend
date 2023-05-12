@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+export const HomeContainer = styled.div`
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-rows: 107px auto 85px;
+`
+
 export const HomeContent = styled.main`
   max-width: 116rem;
   width: 100%;

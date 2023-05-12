@@ -27,15 +27,15 @@ export function CreatePlate() {
   const [ingredients, setIngredients] = useState<string[]>([])
   const [newIngredient, setNewIngredient] = useState<string>('')
 
-  const [mealImage, setMealImage] = useState({} as FileProps)
+  const [mealImage, setMealImage] = useState<null | any>(null) // alterar
 
   const navigate = useNavigate()
 
-  function handleNavigate() {
+  function handleNavigateBack() {
     navigate(-1)
   }
 
-  function handleChangeImage(e: ChangeEvent<HTMLInputElement>) {
+  function handleSelectImage(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
 
     if(!file) {
@@ -56,24 +56,32 @@ export function CreatePlate() {
 
   async function handleCreateNewMeal(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    
+    if(newIngredient) {
+      return alert('Você deixou um ingrediente para adicionar mas não clicou em adicionar. Clique para adicionar ou deixe o campo vazio')
+    }
 
     if(!name || !price || !description) {
       return alert('Você precisa preencher todos os campos para criar um novo prato')
     }
 
-    if(ingredients.length < 1) {
-      return alert('Ensira um ingrediente')
+    if(ingredients.length < 2) {
+      return alert('Ensira pelo menos dois ingredientes')
     }
 
-    await api.post('/meals', {
-      mealImage,
-      name,
-      category,
-      description,
-      price
-    })
+    const formData = new FormData()
+    formData.append("image", mealImage)
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("price", price);
+    ingredients.map(ingredient => (
+        formData.append("ingredients", ingredient)
+    ))
 
-    alert('Refeição cadastrada')
+    await api.post('/meals', formData)
+
+    alert('Prato cadastrado com sucesso!')
     navigate('/')
   }
 
@@ -85,7 +93,7 @@ export function CreatePlate() {
     
           <NewPlateContent>
     
-            <ButtonContainer onClick={handleNavigate}>
+            <ButtonContainer onClick={handleNavigateBack}>
               <CaretLeft size={22}/>
               voltar
             </ButtonContainer>
@@ -101,21 +109,22 @@ export function CreatePlate() {
                       <UploadSimple size={24}/>
                       <span>
                         {
-                          mealImage.name ? mealImage.name : 'Insira a imagem'
+                          mealImage?.name ? mealImage?.name : 'Insira a imagem'
                         }
                       </span>
                       <input 
                         id="image"
                         type="file"
-                        onChange={handleChangeImage}
+                        onChange={handleSelectImage}
                       />
                     </label>
                   </File>
                 </Container>
               
                 <Container className="plateName">
-                  <label htmlFor="">Nome</label>
-                  <Input 
+                  <label htmlFor="name">Nome</label>
+                  <Input
+                    id="name" 
                     type="text" 
                     placeholder="Ex.: Salada Ceasar"
                     onChange={e => setName(e.target.value)}
@@ -123,8 +132,11 @@ export function CreatePlate() {
                 </Container>
               
                 <Container className="plateCategory">
-                  <label htmlFor="">Categoria</label>
-                  <select onChange={e => setCategory(e.target.value)}>
+                  <label htmlFor="category">Categoria</label>
+                  <select 
+                    id="category"
+                    onChange={e => setCategory(e.target.value)}
+                  >
                     <option value="Refeição">Refeição</option>
                     <option value="Sobremesa">Sobremesa</option>
                     <option value="Bebida">Bebida</option>
@@ -146,7 +158,7 @@ export function CreatePlate() {
                       ))
                     }
                     {
-                      ingredients.length < 5 && 
+                      ingredients.length < 10 && 
                       <Markers 
                         isNew
                         placeholder="Adicionar"
@@ -159,9 +171,10 @@ export function CreatePlate() {
                 </Container>
               
                 <Container className="platePrice">
-                  <label htmlFor="">Preço</label>
+                  <label htmlFor="price">Preço</label>
                   <Input 
-                    type="number" 
+                    id="price"
+                    type="string" 
                     placeholder="R$ 00,00" 
                     onChange={e => setPrice(e.target.value)}
                   />
@@ -170,8 +183,9 @@ export function CreatePlate() {
               
               <div>
                 <Container>
-                  <label htmlFor="">Descrição</label>
+                  <label htmlFor="description">Descrição</label>
                   <textarea 
+                    id="description"
                     placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
                     onChange={e => setDescription(e.target.value)}
                   >

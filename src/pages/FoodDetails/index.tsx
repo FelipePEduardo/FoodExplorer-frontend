@@ -3,15 +3,35 @@ import { Header } from "../../components/Header";
 import { Quantity } from "../../components/Quantity";
 import { ButtonContainerAdmin, ButtonsContainer, FoodDetailsContainer, FoodDetailsContent, PlateContainer, TagsContainer } from "./styles";
 import { CaretLeft, Receipt } from '@phosphor-icons/react'
-import FoodImage from '../../assets/foods/ravanello.png'
+import FoodImage from '../../assets/meals/ravanello.png'
 import { Button } from "../../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import { HeaderAdmin } from "../../components/HeaderAdmin";
+import { useEffect, useState } from "react"
+import { api } from "../../services/api";
+
+interface Meal {
+  id: number
+  image: string
+  name: string
+  category: string
+  ingredients: {
+    id: number
+    name: string
+  }[]
+  price:  string
+  description: string
+}
 
 export function FoodDetails() {
+  const [meal, setMeal] = useState({} as Meal)
+
   const navigate = useNavigate()
+  const { id } = useParams()
   const { user } = useAuth()
+
+  const imageURl = `${api.defaults.baseURL}/files/${meal.image}`
   
   function handleNavigateBack() {
     navigate(-1)
@@ -20,6 +40,16 @@ export function FoodDetails() {
   function handleNavigate() {
     navigate('/editPlate')
   }
+
+  useEffect(() => {
+    async function fetchMeal() {
+      const response = await api.get(`/meals/${id}`)
+
+      setMeal(response.data)
+    }
+
+    fetchMeal()
+  }, [])
 
   return (
     <>
@@ -33,22 +63,19 @@ export function FoodDetails() {
           </button>
   
           <PlateContainer>
-            <img src={FoodImage} alt="" />
+            <img src={imageURl} alt="" />
   
             <div>
-              <h2>Salada Ravanello</h2>
-              <p>Rabanetes, folhas verdes e molho agridoce salpicados com gergelim.</p>
+              <h2>{meal.name}</h2>
+              <p>{meal.description}</p>
   
               <TagsContainer>
-                <span>alface</span>
-                <span>cebola</span>
-                <span>pão naan</span>
-                <span>pepino</span>
-                <span>rabanete</span>
-                <span>tomate</span>
+                {
+                  meal.ingredients?.map( item => <span key={item.id}>{item.name}</span>)
+                }
               </TagsContainer>
   
-              <span>R$25,00</span>
+              <span>R$ {meal.price}</span>
 
               <ButtonContainerAdmin>
                 <Button title="Editar prato" onClick={handleNavigate}/>
@@ -69,22 +96,19 @@ export function FoodDetails() {
           </button>
 
           <PlateContainer>
-            <img src={FoodImage} alt="" />
+            <img src={imageURl} alt="" />
 
             <div>
-              <h2>Salada Ravanello</h2>
-              <p>Rabanetes, folhas verdes e molho agridoce salpicados com gergelim.</p>
+              <h2>{meal.name}</h2>
+              <p>{meal.description}</p>
 
               <TagsContainer>
-                <span>alface</span>
-                <span>cebola</span>
-                <span>pão naan</span>
-                <span>pepino</span>
-                <span>rabanete</span>
-                <span>tomate</span>
+                {
+                  meal.ingredients?.map( item => <span key={item.id}>{item.name}</span>)
+                }
               </TagsContainer>
 
-              <span>R$25,00</span>
+              <span>R$ {meal.price}</span>
 
               <ButtonsContainer>
                 <Quantity />

@@ -1,10 +1,21 @@
 import { CardContainer } from "./styles";
 import { PencilSimple, CaretRight } from "@phosphor-icons/react"
-import parmaImg from '../../assets/foods/parma.png'
 import { NavLink, useNavigate } from "react-router-dom";
+import { api } from "../../services/api";
 
-export function FoodCardAdmin() {
+interface FoodCardAdminProps {
+  meal: {
+    id: number
+    image: string
+    name: string
+    price:  string
+    description: string
+  }
+}
+
+export function FoodCardAdmin({ meal }: FoodCardAdminProps) {
   const navigate = useNavigate()
+  const imageURl = `${api.defaults.baseURL}/files/${meal.image}`
 
   function handleNavigate() {
     navigate("/editPlate")
@@ -16,13 +27,13 @@ export function FoodCardAdmin() {
         <PencilSimple size={24}/>
       </button>
 
-      <img src={parmaImg} alt="" />
+      <img src={imageURl} alt="" />
 
-      <NavLink to={`/foodDetails`}>Salada Ravanello <CaretRight /></NavLink>
+      <NavLink to={`/foodDetails/${meal.id}`}>{meal.name} <CaretRight /></NavLink>
 
-      <p>Presunto de parma e rúcula em um pão com fermentação natural.</p>
+      <p>{meal.description}</p>
 
-      <span>R$ 49,97</span>
+      <span>R$ {meal.price}</span>
     </CardContainer>
   )
 }

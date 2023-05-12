@@ -1,5 +1,5 @@
 import { Header } from "../../components/Header"
-import { HomeContent, IntroContainer } from "./styles"
+import { HomeContainer, HomeContent, IntroContainer } from "./styles"
 import macaronsMobile from '../../assets/macaronsMobile.png'
 import macaronsDesktop from '../../assets/macaronsDesktop.png'
 import { Section } from "../../components/Section"
@@ -8,16 +8,45 @@ import { Footer } from "../../components/Footer"
 import { useAuth } from "../../hooks/auth"
 import { HeaderAdmin } from "../../components/HeaderAdmin"
 import { FoodCardAdmin } from "../../components/FoodCardAdmin"
+import { useEffect, useState } from "react"
+import { api } from "../../services/api"
+
+interface Meal {
+  id: number
+  image: string
+  name: string
+  category: string
+  ingredients: {
+    id: number
+    name: string
+  }[]
+  price:  string
+  description: string
+}
 
 export function Home() {
+  const [meals, setMeals] = useState<Meal[]>([])
+  
+  const [search, setSearch] = useState<string>('')
+
   const { user } = useAuth()
+  
+  useEffect(() => {
+    async function fetchMeals() {
+      const response = await api.get(`/meals?name=${search}`)
+
+      setMeals(response.data)
+    }
+
+    fetchMeals()
+  }, [search])
 
   return (
     <>
       {
         user.is_admin ? 
-          <>
-            <HeaderAdmin />
+          <HomeContainer>
+            <HeaderAdmin setSearch={setSearch}/>
 
             <HomeContent >
               <IntroContainer>
@@ -31,32 +60,35 @@ export function Home() {
               </IntroContainer> 
               
               <Section title="Refeições">
-                <FoodCardAdmin />
-                <FoodCardAdmin />
-                <FoodCardAdmin />
-                <FoodCardAdmin />
-                <FoodCardAdmin />
-                <FoodCardAdmin />
-                <FoodCardAdmin />
-                <FoodCardAdmin />
-                <FoodCardAdmin />
+                {
+                  meals.filter(meal => meal.category == "Refeição").map(meal => (
+                    <FoodCardAdmin key={meal.id} meal={meal}/>
+                  ))
+                }
               </Section>
 
               <Section title="Sobremesas">
-                <FoodCardAdmin />
-                <FoodCardAdmin />
+                {
+                  meals.filter(meal => meal.category == "Sobremesa").map(meal => (
+                    <FoodCardAdmin key={meal.id} meal={meal}/>
+                  ))
+                }
               </Section>  
 
               <Section title="Bebidas">
-                <FoodCardAdmin />
-                <FoodCardAdmin />
+                {
+                  meals.filter(meal => meal.category == "Bebida").map(meal => (
+                    <FoodCardAdmin key={meal.id} meal={meal}/>
+                  ))
+                }
               </Section>    
             </HomeContent>
 
             <Footer />
-          </> : 
-          <>
-            <Header />
+          </HomeContainer> 
+          : 
+          <HomeContainer>
+            <Header setSearch={setSearch}/>
 
             <HomeContent >
               <IntroContainer>
@@ -70,30 +102,32 @@ export function Home() {
               </IntroContainer> 
               
               <Section title="Refeições">
-                <FoodCard />
-                <FoodCard />
-                <FoodCard />
-                <FoodCard />
-                <FoodCard />
-                <FoodCard />
-                <FoodCard />
-                <FoodCard />
-                <FoodCard />
+                {
+                  meals.filter(meal => meal.category == "Refeição").map(meal => (
+                    <FoodCard key={meal.id} meal={meal}/>
+                  ))
+                }
               </Section>
 
               <Section title="Sobremesas">
-                <FoodCard />
-                <FoodCard />
+                {
+                  meals.filter(meal => meal.category == "Sobremesa").map(meal => (
+                    <FoodCard key={meal.id} meal={meal}/>
+                  ))
+                }
               </Section>  
 
               <Section title="Bebidas">
-                <FoodCard />
-                <FoodCard />
+                {
+                  meals.filter(meal => meal.category == "Bebida").map(meal => (
+                    <FoodCard key={meal.id} meal={meal}/>
+                  ))
+                }
               </Section>    
             </HomeContent>
 
             <Footer />
-          </>
+          </HomeContainer>
       }
     </>
   )
