@@ -3,7 +3,6 @@ import { Header } from "../../components/Header";
 import { Quantity } from "../../components/Quantity";
 import { ButtonContainerAdmin, ButtonsContainer, FoodDetailsContainer, FoodDetailsContent, PlateContainer, TagsContainer } from "./styles";
 import { CaretLeft, Receipt } from '@phosphor-icons/react'
-import FoodImage from '../../assets/meals/ravanello.png'
 import { Button } from "../../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
@@ -38,7 +37,7 @@ export function FoodDetails() {
   }
 
   function handleNavigate() {
-    navigate('/editPlate')
+    navigate(`/editPlate/${meal.id}`)
   }
 
   useEffect(() => {

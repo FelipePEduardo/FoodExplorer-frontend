@@ -43,7 +43,7 @@ const appRoutes = createBrowserRouter([
     element: <CreatePlate />
   },
   {
-    path: 'editPlate',
+    path: 'editPlate/:id',
     element: <EditPlate />
   },
 ])

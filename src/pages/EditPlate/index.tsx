@@ -5,23 +5,101 @@ import { ButtonContainer, ButtonsContainer, Container, EditPlateContainer, EditP
 import { Input } from "../../components/Input";
 import { Markers } from "../../components/Marker";
 import { Button } from "../../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import { Error } from "../Error";
-import { useState } from "react";
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { api } from "../../services/api";
+
+interface Ingredient {
+  name: string
+}
 
 export function EditPlate() {
-  /* const [name, setName] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const [category, setCategory] = useState<string>('Refeição')
   const [description, setDescription] = useState<string>('')
-  const [category, setCategory] = useState<string>('')
-  const [price, setPrice] = useState<string>('') */
+  const [price, setPrice] = useState<string>('')
+  
+  const [ingredients, setIngredients] = useState<string[]>([])
+  const [newIngredient, setNewIngredient] = useState<string>('')
 
-  const navigate = useNavigate()
+  const [mealImage, setMealImage] = useState<null | any>(null) // alterar
+
   const { user } = useAuth()
+  const { id } = useParams()
+  const navigate = useNavigate()
 
-  function handleNavigate() {
+  function handleNavigateBack() {
     navigate(-1)
   }
+
+  function handleSelectImage(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+
+    if(!file) {
+      return alert('Erro ao carregar a imagem')
+    } else {
+      setMealImage(file)
+    }
+  }
+
+  function handleAddIngredient() {
+    setIngredients((state) => [...state, newIngredient ]);
+    setNewIngredient('')
+  }
+
+  function handleRemoveIngredient(deleted: string) {
+    setIngredients((prevState) =>
+      prevState.filter((ingredient) => ingredient !== deleted)
+    );
+    setNewIngredient("");
+  }
+
+  async function handleUpdateMeal(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    if(!name || !price || !description) {
+      return alert('Você precisa preencher todos os campos para atualizar o prato')
+    }
+
+    if (newIngredient != '') {
+      return alert('Clique no + para adicionar o ingrediente ou limpe o campo!')
+    }
+
+    if(ingredients.length < 2) {
+      return alert('Ensira pelo menos dois ingredientes')
+    }
+
+    const formData = new FormData()
+    formData.append("image", mealImage)
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("price", price);
+    ingredients.map(ingredient => (
+        formData.append("ingredients", ingredient)
+    ))
+
+    await api.put(`/meals/${id}`, formData)
+
+    alert("Prato editado com sucesso")
+    navigate(-1)
+  }
+  
+  useEffect(() => {
+    async function fetchMeal() {
+      const response = await api.get(`/meals/${id}`)
+
+      const {name, description, price, ingredients } = response.data;
+      setName(name)
+      setDescription(description)
+      setPrice(price)
+      setIngredients(ingredients.map((ingredient: Ingredient) => ingredient.name))
+    }
+
+    fetchMeal()
+  }, [])
 
   return (
     <>
@@ -31,34 +109,47 @@ export function EditPlate() {
     
           <EditPlateContent>
     
-            <ButtonContainer onClick={handleNavigate}>
+            <ButtonContainer onClick={handleNavigateBack}>
               <CaretLeft size={22}/>
               voltar
             </ButtonContainer>
     
             <h1>Novo prato</h1>
     
-            <Form>
+            <Form onSubmit={handleUpdateMeal}>
               <div>
                 <Container className="plateImg">
                   <label htmlFor="avatar">Imagem do prato</label>
                   <File>
                     <label htmlFor="avatar">
                       <UploadSimple size={24}/>
-                      <span>Selecione a imagem</span>
-                      <input type="file" id="avatar"/>
+                      <span>Selecione a imagem para alterá-la</span>
+                      <input 
+                        type="file" 
+                        id="avatar"
+                        onChange={handleSelectImage}
+                      />
                     </label>
                   </File>
                 </Container>
               
                 <Container className="plateName">
-                  <label htmlFor="">Nome</label>
-                  <Input type="text" placeholder="Ex.: Salada Ceasar" value="Salada Ceasar"/>
+                  <label htmlFor="name">Nome</label>
+                  <Input 
+                    id="name"
+                    type="text" 
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                  />
                 </Container>
               
                 <Container className="plateCategory">
-                  <label htmlFor="">Categoria</label>
-                  <select>
+                  <label htmlFor="category">Categoria</label>
+                  <select 
+                    id="category"
+                    value={category}
+                    onChange={e => setCategory(e.target.value)}
+                  >
                     <option value="Refeição">Refeição</option>
                     <option value="Sobremesa">Sobremesa</option>
                     <option value="Bebida">Bebida</option>
@@ -68,32 +159,58 @@ export function EditPlate() {
     
               <div>
                 <Container className="plateIngredients">
-                  <label htmlFor="">Ingredientes</label>
-                  <MarkersContainer>
-                    {/* <Markers/> 
-                    <Markers />
-                    <Markers isNew/> */}
+                  <label htmlFor="ingredient">Ingredientes</label>
+                  <MarkersContainer id="ingredient">
+                    {
+                      ingredients.map(ingredient => {
+                        return (
+                          <Markers 
+                            key={ingredient}
+                            value={ingredient}
+                            onClick={() => handleRemoveIngredient(ingredient)}
+                          /> 
+                        )
+                      })
+                    }
+                    {
+                      ingredients.length < 10 && 
+                      <Markers 
+                        isNew
+                        placeholder="Adicionar"
+                        value={newIngredient}
+                        onChange={(e:ChangeEvent<HTMLInputElement>) => setNewIngredient(e.target.value)}
+                        onClick={handleAddIngredient}
+                      />
+                    }
                   </MarkersContainer>
                 </Container>
               
                 <Container className="platePrice">
-                  <label htmlFor="">Preço</label>
-                  <Input type="number" placeholder="R$ 00,00" />
+                  <label htmlFor="price">Preço</label>
+                  <Input 
+                    id="price"
+                    type="number" 
+                    placeholder={`R$ ${price}`}
+                    onChange={e => setPrice(e.target.value)}
+                  />
                 </Container>
               </div>
               
               <div>
                 <Container>
-                  <label htmlFor="">Descrição</label>
-                  <textarea placeholder="Fale brevemente sobre o prato, seus ingredientes e composição">
-                    A Salada César é uma opção refrescante para o verão.
+                  <label htmlFor="description">Descrição</label>
+                  <textarea
+                    id="description" 
+                    onChange={e => setDescription(e.target.value)}
+                    value={description}
+                  >
                   </textarea>
                 </Container>
               </div>
     
               <ButtonsContainer>
                 <Button title="Excluir prato" type="button"/>
-                <Button title="Salvar alterações" disabled type="submit"/>
+                <Button title="Salvar alterações" type="submit"/>
               </ButtonsContainer>
             </Form>
           </EditPlateContent>

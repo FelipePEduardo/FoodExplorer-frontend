@@ -11,17 +11,17 @@ import { Error } from "../Error"
 import { useState, ChangeEvent, FormEvent } from "react";
 import { api } from "../../services/api"
 
-interface FileProps{
+/* interface File{
   name: string
   size: number
   type: string
-}
+} */
 
 export function CreatePlate() {
   const { user } =  useAuth()
 
   const [name, setName] = useState<string>('')
-  const [category, setCategory] = useState<string>('')
+  const [category, setCategory] = useState<string>('Refeição')
   const [description, setDescription] = useState<string>('')
   const [price, setPrice] = useState<string>('')
   const [ingredients, setIngredients] = useState<string[]>([])

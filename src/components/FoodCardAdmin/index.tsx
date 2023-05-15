@@ -18,7 +18,7 @@ export function FoodCardAdmin({ meal }: FoodCardAdminProps) {
   const imageURl = `${api.defaults.baseURL}/files/${meal.image}`
 
   function handleNavigate() {
-    navigate("/editPlate")
+    navigate(`/editPlate/${meal.id}`)
   }
 
   return (
