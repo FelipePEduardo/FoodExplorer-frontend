@@ -7,9 +7,10 @@ import { ChangeEvent } from "react"
 
 interface HeaderProps {
   onSearch?: (e: ChangeEvent<HTMLInputElement>) => void
+  productsInCart?: number
 }
 
-export function Header({ onSearch }: HeaderProps) {
+export function Header({ onSearch, productsInCart }: HeaderProps) {
   const navigate = useNavigate()
   const { signOut } = useAuth()
 
@@ -43,9 +44,9 @@ export function Header({ onSearch }: HeaderProps) {
         </InputContainer>
 
         <RequestsButton>
-          <span>0</span>
+          <span>{productsInCart}</span>
           <Receipt size={24}/>
-          <span>Pedidos &#40;0&#41;</span>
+          <span>Pedidos &#40;{productsInCart}&#41;</span>
         </RequestsButton>
 
         <SignOutContainer onClick={handleSignOut}>

@@ -1,24 +1,33 @@
 import { CardContainer } from "./styles";
-import { Heart, CaretRight } from "@phosphor-icons/react"
+import { Heart,CaretRight } from "@phosphor-icons/react"
 import { Quantity } from "../Quantity";
 import { Button } from "../Button";
 import { NavLink } from "react-router-dom";
 import { api } from "../../services/api";
 import { useState } from "react";
 
-interface FoodCardAdminProps {
-  meal: {
+interface Meal {
+  id: number
+  image: string
+  name: string
+  category: string
+  ingredients: {
     id: number
-    image: string
     name: string
-    price:  string
-    description: string
-  }
+  }[]
+  price:  string
+  description: string
 }
 
 
-export function FoodCard({ meal }: FoodCardAdminProps) {
-  const [quantity, setQuantity] = useState(1)
+interface FoodCardAdminProps {
+  meal: Meal
+  onAddToCart: (meal: Meal) => void
+}
+
+export function FoodCard({ meal, onAddToCart }: FoodCardAdminProps) {
+  const [quantity, setQuantity] = useState<number>(1)
+  const [favorite, setFavorite] = useState<boolean>(false)
 
   function handleIncreaseQuantity() {
     if(quantity < 9) {
@@ -31,13 +40,19 @@ export function FoodCard({ meal }: FoodCardAdminProps) {
       setQuantity(state => state - 1)
     }
   }
+  
+  function handleAddFavorite() {
+    setFavorite(state => !state)
+  }
 
   const imageURl = `${api.defaults.baseURL}/files/${meal.image}`
 
   return (
     <CardContainer className="keen-slider__slide">
-      <button>
-        <Heart size={24}/>
+      <button onClick={handleAddFavorite}>
+        {
+          favorite == false ? <Heart size={24}/> : <Heart weight="fill" size={24}/>
+        }
       </button>
 
       <img src={imageURl} alt="" />
@@ -56,6 +71,7 @@ export function FoodCard({ meal }: FoodCardAdminProps) {
         />
         <Button 
           title="incluir"
+          onClick={() => onAddToCart(meal)}
         />
       </div>
     </CardContainer>

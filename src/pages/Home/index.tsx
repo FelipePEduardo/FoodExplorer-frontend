@@ -29,8 +29,21 @@ interface Meal {
 export function Home() {
   const [meals, setMeals] = useState<Meal[]>([])
   const [search, setSearch] = useState<string>('')
+  const [cartItems, setCartItems] = useState<Meal[]>([])
 
   const { user } = useAuth() 
+
+  function addToCart(meal: Meal) {
+    const mealAlreadyExistsInCart = cartItems.find(cartItem => cartItem.id === meal.id)
+
+    if(!mealAlreadyExistsInCart) {
+      setCartItems(state => [...state, meal])   
+    } else {
+      alert("Esse item já está no carrinho.")
+    }
+  }
+
+  const productsInCart = cartItems.length
 
   function handleSearch(e: ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value)
@@ -38,7 +51,7 @@ export function Home() {
   
   useEffect(() => {
     async function fetchMeals() {
-      const response = await api.get(`/meals?name=${search}`)
+      const response = await api.get(`/meals?search=${search}`)
 
       setMeals(response.data)
     }
@@ -101,7 +114,7 @@ export function Home() {
           </HomeContainer> 
           : 
           <HomeContainer>
-            <Header onSearch={handleSearch}/>
+            <Header onSearch={handleSearch} productsInCart={productsInCart}/>
 
             <HomeContent >
               <IntroContainer>
@@ -128,7 +141,7 @@ export function Home() {
                     <FoodCard 
                       key={meal.id} 
                       meal={meal}
-                      
+                      onAddToCart={addToCart}
                     />
                   ))
                 }
@@ -140,7 +153,7 @@ export function Home() {
                     <FoodCard 
                       key={meal.id} 
                       meal={meal}
-                      
+                      onAddToCart={addToCart}
                     />
                   ))
                 }
@@ -152,7 +165,7 @@ export function Home() {
                     <FoodCard 
                       key={meal.id}
                       meal={meal}
-              
+                      onAddToCart={addToCart}
                     />
                   ))
                 }
