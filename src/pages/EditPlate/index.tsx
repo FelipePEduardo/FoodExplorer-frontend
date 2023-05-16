@@ -86,6 +86,15 @@ export function EditPlate() {
     alert("Prato editado com sucesso")
     navigate(-1)
   }
+
+  async function handleDeleteMeal() {
+    const confirm = window.confirm("Deseja realmente remover o prato?")
+
+    if(confirm) {
+      await api.delete(`/meals/${id}`)
+      navigate('/')
+    }
+  }
   
   useEffect(() => {
     async function fetchMeal() {
@@ -209,7 +218,11 @@ export function EditPlate() {
               </div>
     
               <ButtonsContainer>
-                <Button title="Excluir prato" type="button"/>
+                <Button 
+                  title="Excluir prato" 
+                  type="button"
+                  onClick={handleDeleteMeal}
+                />
                 <Button title="Salvar alterações" type="submit"/>
               </ButtonsContainer>
             </Form>
