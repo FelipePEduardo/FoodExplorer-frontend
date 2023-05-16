@@ -103,3 +103,34 @@ export const IntroContainer = styled.div`
     }
   }
 `
+
+export const InputContainer = styled.div`
+  width: 100%;
+  margin-bottom: 4rem;
+
+  background: ${({ theme }) => theme.colors["dark-900"]};
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+
+  padding: 1.2rem 1.4rem;
+
+  &:has(input:focus) {
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["cake-100"]};
+  }
+
+  input {
+    background: transparent;
+    padding: 0;
+  }
+
+  input:focus {
+    box-shadow: none;
+  }
+
+  @media(min-width: 1160px) {
+    display: none;
+  }
+`

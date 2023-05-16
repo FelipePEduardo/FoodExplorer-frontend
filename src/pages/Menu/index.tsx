@@ -1,6 +1,6 @@
-import { MagnifyingGlass, X } from "@phosphor-icons/react";
+import { X } from "@phosphor-icons/react";
 import { Footer } from "../../components/Footer";
-import { HeaderContainer, InputContainer, MenuContainer, MenuContent } from "./styles";
+import { HeaderContainer, MenuContainer, MenuContent } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 
@@ -33,13 +33,6 @@ export function Menu() {
         </HeaderContainer>
   
         <MenuContent>
-          <form action="">
-            <InputContainer>
-              <MagnifyingGlass size={24}/>
-              <input type="text" placeholder="Busque por pratos ou ingredientes"/>
-            </InputContainer>
-          </form>
-  
           <button onClick={handleNavigate}>
             Novo prato
           </button>
@@ -61,13 +54,6 @@ export function Menu() {
         </HeaderContainer>
 
         <MenuContent>
-          <form action="">
-            <InputContainer>
-              <MagnifyingGlass size={24}/>
-              <input type="text" placeholder="Busque por pratos ou ingredientes"/>
-            </InputContainer>
-          </form>
-
           <button onClick={handleSignOut}>
             Sair
           </button>

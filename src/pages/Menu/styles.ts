@@ -57,33 +57,3 @@ export const MenuContent = styled.div`
     cursor: pointer;
   }
 `
-
-export const InputContainer = styled.div`
-  background: ${({ theme }) => theme.colors["dark-900"]};
-  padding: 1.2rem 1.4rem;
-  border-radius: 8px;
-
-  display: flex;
-  align-items: center;
-  gap: 1.4rem;
-
-  &:focus {
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["cake-100"]};
-  }
-
-  &:has(input:focus) {
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["cake-100"]};
-  }
-
-  input {
-    width: 100%;
-
-    background: 0;
-    border: 0;
-    box-shadow: none;
-
-    &::placeholder {
-      color: ${({ theme }) => theme.colors["light-500"]};
-    }
-  }
-`

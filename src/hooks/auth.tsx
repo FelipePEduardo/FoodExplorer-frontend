@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState, ChangeEvent } from "react";
 import { api } from "../services/api";
 
 interface AuthContextProviderProps {
@@ -26,7 +26,6 @@ interface UserProps {
   is_admin: boolean
   created_at: string
 }
-
 
 interface DataProps {
   user: UserProps

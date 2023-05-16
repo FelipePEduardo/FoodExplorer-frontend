@@ -4,6 +4,7 @@ import { Quantity } from "../Quantity";
 import { Button } from "../Button";
 import { NavLink } from "react-router-dom";
 import { api } from "../../services/api";
+import { useState } from "react";
 
 interface FoodCardAdminProps {
   meal: {
@@ -17,6 +18,20 @@ interface FoodCardAdminProps {
 
 
 export function FoodCard({ meal }: FoodCardAdminProps) {
+  const [quantity, setQuantity] = useState(1)
+
+  function handleIncreaseQuantity() {
+    if(quantity < 9) {
+      setQuantity(state => state + 1)
+    }
+  }
+
+  function handleDecreaseQuantity() {
+    if(quantity > 1) {
+      setQuantity(state => state - 1)
+    }
+  }
+
   const imageURl = `${api.defaults.baseURL}/files/${meal.image}`
 
   return (
@@ -34,8 +49,14 @@ export function FoodCard({ meal }: FoodCardAdminProps) {
       <span>R$ {meal.price}</span>
 
       <div>
-        <Quantity />
-        <Button title="incluir"/>
+        <Quantity 
+          onIncrease={handleIncreaseQuantity}
+          onDecrease={handleDecreaseQuantity}
+          quantity={quantity}
+        />
+        <Button 
+          title="incluir"
+        />
       </div>
     </CardContainer>
   )

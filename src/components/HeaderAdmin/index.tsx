@@ -3,12 +3,12 @@ import { HeaderAdminContainer, HeaderAdminContent, InputContainer, LogoContainer
 import { Logo } from "../Logo";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
+import { ChangeEvent } from "react"
 
 interface HeaderAdminProps {
-  setSearch?: (value: string) => void
+  onSearch?: (e: ChangeEvent<HTMLInputElement>) => void
 }
-
-export function HeaderAdmin({ setSearch }: HeaderAdminProps) {
+export function HeaderAdmin({ onSearch }: HeaderAdminProps) {
   const navigate = useNavigate()
   const { signOut } = useAuth()
 
@@ -42,7 +42,7 @@ export function HeaderAdmin({ setSearch }: HeaderAdminProps) {
           <input 
             type="text" 
             placeholder="Busque por pratos ou ingredientes"
-            onChange={(e) => setSearch!(e.target.value)}  
+            onChange={onSearch}  
           />
         </InputContainer>
 

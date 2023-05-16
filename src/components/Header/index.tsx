@@ -3,12 +3,13 @@ import { Logo } from "../Logo";
 import { HeaderContainer, HeaderContent, InputContainer, LogoContainer, MenuButton, RequestsButton, SignOutContainer } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
+import { ChangeEvent } from "react"
 
 interface HeaderProps {
-  setSearch?: (value: string) => void
+  onSearch?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-export function Header({ setSearch }: HeaderProps) {
+export function Header({ onSearch }: HeaderProps) {
   const navigate = useNavigate()
   const { signOut } = useAuth()
 
@@ -37,7 +38,7 @@ export function Header({ setSearch }: HeaderProps) {
           <input 
             type="text" 
             placeholder="Busque por pratos ou ingredientes"
-            onChange={e => setSearch!(e.target.value)}
+            onChange={onSearch}
           />
         </InputContainer>
 

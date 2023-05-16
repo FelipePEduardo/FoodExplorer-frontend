@@ -1,5 +1,5 @@
 import { Header } from "../../components/Header"
-import { HomeContainer, HomeContent, IntroContainer } from "./styles"
+import { HomeContainer, HomeContent, InputContainer, IntroContainer } from "./styles"
 import macaronsMobile from '../../assets/macaronsMobile.png'
 import macaronsDesktop from '../../assets/macaronsDesktop.png'
 import { Section } from "../../components/Section"
@@ -8,8 +8,10 @@ import { Footer } from "../../components/Footer"
 import { useAuth } from "../../hooks/auth"
 import { HeaderAdmin } from "../../components/HeaderAdmin"
 import { FoodCardAdmin } from "../../components/FoodCardAdmin"
-import { useEffect, useState } from "react"
+import { useEffect, useState, ChangeEvent } from "react"
 import { api } from "../../services/api"
+import { Input } from "../../components/Input"
+import { MagnifyingGlass } from "@phosphor-icons/react"
 
 interface Meal {
   id: number
@@ -26,10 +28,13 @@ interface Meal {
 
 export function Home() {
   const [meals, setMeals] = useState<Meal[]>([])
-  
   const [search, setSearch] = useState<string>('')
 
-  const { user } = useAuth()
+  const { user } = useAuth() 
+
+  function handleSearch(e: ChangeEvent<HTMLInputElement>) {
+    setSearch(e.target.value)
+  }
   
   useEffect(() => {
     async function fetchMeals() {
@@ -46,7 +51,7 @@ export function Home() {
       {
         user.is_admin ? 
           <HomeContainer>
-            <HeaderAdmin setSearch={setSearch}/>
+            <HeaderAdmin onSearch={handleSearch}/>
 
             <HomeContent >
               <IntroContainer>
@@ -58,6 +63,14 @@ export function Home() {
                   <p>Sinta o cuidado do preparo com ingredientes selecionados.</p>
                 </div>
               </IntroContainer> 
+
+              <InputContainer > 
+                <MagnifyingGlass size={24}/>
+                <Input 
+                  placeholder="Busque por pratos ou ingredientes"
+                  onChange={e => setSearch(e.target.value)}
+                />
+              </InputContainer>
               
               <Section title="Refeições">
                 {
@@ -88,7 +101,7 @@ export function Home() {
           </HomeContainer> 
           : 
           <HomeContainer>
-            <Header setSearch={setSearch}/>
+            <Header onSearch={handleSearch}/>
 
             <HomeContent >
               <IntroContainer>
@@ -101,10 +114,22 @@ export function Home() {
                 </div>
               </IntroContainer> 
               
+              <InputContainer > 
+                <MagnifyingGlass size={24}/>
+                <Input 
+                  placeholder="Busque por pratos ou ingredientes"
+                  onChange={handleSearch}
+                />
+              </InputContainer>
+              
               <Section title="Refeições">
                 {
                   meals.filter(meal => meal.category == "Refeição").map(meal => (
-                    <FoodCard key={meal.id} meal={meal}/>
+                    <FoodCard 
+                      key={meal.id} 
+                      meal={meal}
+                      
+                    />
                   ))
                 }
               </Section>
@@ -112,7 +137,11 @@ export function Home() {
               <Section title="Sobremesas">
                 {
                   meals.filter(meal => meal.category == "Sobremesa").map(meal => (
-                    <FoodCard key={meal.id} meal={meal}/>
+                    <FoodCard 
+                      key={meal.id} 
+                      meal={meal}
+                      
+                    />
                   ))
                 }
               </Section>  
@@ -120,7 +149,11 @@ export function Home() {
               <Section title="Bebidas">
                 {
                   meals.filter(meal => meal.category == "Bebida").map(meal => (
-                    <FoodCard key={meal.id} meal={meal}/>
+                    <FoodCard 
+                      key={meal.id}
+                      meal={meal}
+              
+                    />
                   ))
                 }
               </Section>    
