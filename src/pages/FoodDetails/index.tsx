@@ -25,6 +25,30 @@ interface Meal {
 
 export function FoodDetails() {
   const [meal, setMeal] = useState({} as Meal)
+  const [quantity, setQuantity] = useState<number>(1)
+  const [cartItems, setCartItems] = useState<Meal[]>([])
+
+  function handleIncreaseQuantity() {
+    if(quantity < 9) {
+      setQuantity(state => state + 1)
+    }
+  }
+
+  function handleDecreaseQuantity() {
+    if(quantity > 1) {
+      setQuantity(state => state - 1)
+    }
+  }
+
+  function addToCart(meal: Meal) {
+    const mealAlreadyExistsInCart = cartItems.find(cartItem => cartItem.id === meal.id)
+
+    if(!mealAlreadyExistsInCart) {
+      setCartItems(state => [...state, meal])   
+    } else {
+      alert("Esse item já está no carrinho.")
+    }
+  }
 
   const navigate = useNavigate()
   const { id } = useParams()
@@ -39,6 +63,8 @@ export function FoodDetails() {
   function handleNavigate() {
     navigate(`/editPlate/${meal.id}`)
   }
+
+  const productsInCart = cartItems.length
 
   useEffect(() => {
     async function fetchMeal() {
@@ -87,7 +113,7 @@ export function FoodDetails() {
       </FoodDetailsContainer>
       : 
       <FoodDetailsContainer>
-        <Header />
+        <Header productsInCart={productsInCart}/>
 
         <FoodDetailsContent>
           <button onClick={handleNavigateBack}>
@@ -110,9 +136,9 @@ export function FoodDetails() {
               <span>R$ {meal.price}</span>
 
               <ButtonsContainer>
-                <Quantity />
+                <Quantity onDecrease={handleDecreaseQuantity} onIncrease={handleIncreaseQuantity} quantity={quantity}/>
 
-                <Button title="pedir">
+                <Button title="pedir" onClick={() => addToCart(meal)}>
                   <Receipt size={22}/>
                 </Button>
               </ButtonsContainer>
