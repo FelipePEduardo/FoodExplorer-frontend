@@ -10,7 +10,7 @@ export const FoodDetailsContainer = styled.div`
 export const FoodDetailsContent = styled.div`
   max-width: 36.4rem;
   width: 100%;
-  margin: 4rem auto 0;
+  margin: 4rem auto 5.4rem;
   padding: 0 2.4rem;
 
   > button {

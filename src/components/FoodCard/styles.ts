@@ -1,9 +1,6 @@
 import styled from "styled-components";
 
 export const CardContainer = styled.div`
-  min-width: 21rem;
-  max-width: 21rem;
-
   background: ${({ theme }) => theme.colors["dark-200"]};
   border: 1px solid ${({ theme }) => theme.colors["dark-200"]};
   border-radius: 8px;

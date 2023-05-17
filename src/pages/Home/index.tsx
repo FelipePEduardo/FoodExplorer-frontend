@@ -13,6 +13,7 @@ import { api } from "../../services/api"
 import { Input } from "../../components/Input"
 import { MagnifyingGlass } from "@phosphor-icons/react"
 
+
 interface Meal {
   id: number
   image: string
@@ -85,10 +86,12 @@ export function Home() {
                 />
               </InputContainer>
               
-              <Section title="Refeições">
+              <Section title="Refeições">               
                 {
                   meals.filter(meal => meal.category == "Refeição").map(meal => (
-                    <FoodCardAdmin key={meal.id} meal={meal}/>
+                    
+                      <FoodCardAdmin meal={meal}/>
+                    
                   ))
                 }
               </Section>
@@ -96,17 +99,21 @@ export function Home() {
               <Section title="Sobremesas">
                 {
                   meals.filter(meal => meal.category == "Sobremesa").map(meal => (
-                    <FoodCardAdmin key={meal.id} meal={meal}/>
+                    
+                      <FoodCardAdmin meal={meal}/>
+                    
                   ))
                 }
               </Section>  
 
-              <Section title="Bebidas">
+              <Section title="Bebidas">               
                 {
                   meals.filter(meal => meal.category == "Bebida").map(meal => (
-                    <FoodCardAdmin key={meal.id} meal={meal}/>
+                    
+                      <FoodCardAdmin meal={meal}/>
+                    
                   ))
-                }
+                }              
               </Section>    
             </HomeContent>
 
@@ -135,26 +142,30 @@ export function Home() {
                 />
               </InputContainer>
               
-              <Section title="Refeições">
+              <Section title="Refeições">             
                 {
                   meals.filter(meal => meal.category == "Refeição").map(meal => (
-                    <FoodCard 
-                      key={meal.id} 
-                      meal={meal}
-                      onAddToCart={addToCart}
-                    />
+                    
+                      <FoodCard 
+                        key={meal.id} 
+                        meal={meal}
+                        onAddToCart={addToCart}
+                      />
+                    
                   ))
                 }
               </Section>
 
-              <Section title="Sobremesas">
+              <Section title="Sobremesas">              
                 {
                   meals.filter(meal => meal.category == "Sobremesa").map(meal => (
-                    <FoodCard 
-                      key={meal.id} 
-                      meal={meal}
-                      onAddToCart={addToCart}
-                    />
+                    
+                      <FoodCard 
+                        key={meal.id} 
+                        meal={meal}
+                        onAddToCart={addToCart}
+                      />
+                    
                   ))
                 }
               </Section>  
@@ -162,13 +173,15 @@ export function Home() {
               <Section title="Bebidas">
                 {
                   meals.filter(meal => meal.category == "Bebida").map(meal => (
-                    <FoodCard 
-                      key={meal.id}
-                      meal={meal}
-                      onAddToCart={addToCart}
-                    />
+                    
+                      <FoodCard 
+                        key={meal.id}
+                        meal={meal}
+                        onAddToCart={addToCart}
+                      />
+                    
                   ))
-                }
+                }        
               </Section>    
             </HomeContent>
 

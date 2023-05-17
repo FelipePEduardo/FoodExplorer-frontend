@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const CardContainer = styled.div`
-  min-width: 21rem;
-  max-width: 21rem;
   height: 30rem;
 
   background: ${({ theme }) => theme.colors["dark-200"]};
@@ -68,7 +66,8 @@ export const CardContainer = styled.div`
   }
 
   @media(min-width: 1160px) {
-    width: 30rem;
+    width: 100%;
+    max-width: 40rem;
     height: 46.2rem;
 
     gap: 1.5rem;

@@ -2,9 +2,6 @@ import styled from "styled-components";
 
 export const HomeContainer = styled.div`
   min-height: 100vh;
-
-  display: grid;
-  grid-template-rows: 107px auto 85px;
 `
 
 export const HomeContent = styled.main`
@@ -18,7 +15,7 @@ export const HomeContent = styled.main`
     margin: 16.4rem auto 4.8rem;
     padding: 0 2rem;
   }
-`
+`;
 
 export const IntroContainer = styled.div`
   width: 100%;

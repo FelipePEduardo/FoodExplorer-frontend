@@ -29,6 +29,10 @@ export function SignUp() {
       return alert("Preencha todos os campos!")
     }
 
+    if(password.length < 6 ) {
+      return alert("A senha deve conter pelo menos seis dígitos.")
+    }
+
     api.post("/users", {name, email, password})
       .then(() => {
         alert("Usuário cadastrado com sucesso!")

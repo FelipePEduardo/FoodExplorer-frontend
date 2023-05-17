@@ -22,8 +22,9 @@ export const SectionContainer = styled.section`
   }
 
   > div {
+    width: 100%;
+
     display: flex;
-    gap: 1.6rem;
   }
 
   @media(min-width: 1160px) {
